@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Art Assets/character.png" type="Texture" id=2]
 [ext_resource path="res://Resources/PlayerStats.tres" type="Resource" id=3]
+[ext_resource path="res://Art Assets/Seeds.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -86,3 +87,8 @@ animation = "down_walk"
 position = Vector2( -1.09278e-08, 7.25 )
 rotation = 1.5708
 shape = SubResource( 14 )
+
+[node name="Seed" type="Sprite" parent="."]
+position = Vector2( 0, -18 )
+texture = ExtResource( 4 )
+hframes = 4

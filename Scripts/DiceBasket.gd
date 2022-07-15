@@ -16,11 +16,11 @@ onready var exclamation : Sprite = $InZone
 func _ready():
 	exclamation.visible = false
 
-func _on_PlayerDetection_body_entered(body):
+func _on_PlayerDetection_body_entered(_body):
 	exclamation.visible = true
 	in_zone = true
 
-func _on_PlayerDetection_body_exited(body):
+func _on_PlayerDetection_body_exited(_body):
 	exclamation.visible = false
 	in_zone = false
 

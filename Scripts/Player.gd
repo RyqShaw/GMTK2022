@@ -8,7 +8,16 @@ var max_velocity : float = 75
 
 var velocity : Vector2 = Vector2.ZERO
 
+enum {
+	health_seed,
+	speed_seed,
+	attack_speed_seed,
+	damage_seed,
+	none
+}
+
 onready var sprite : AnimatedSprite = $AnimatedSprite
+onready var seed_sprite : Sprite = $Seed
 
 func _physics_process(delta):
 	var input_vector : Vector2 = Vector2.ZERO
@@ -26,6 +35,23 @@ func _physics_process(delta):
 	
 	change_animation(input_vector)
 	velocity = move_and_slide(velocity)
+
+func _process(_delta):
+	match stats.inventory:
+		none:
+			seed_sprite.visible = false
+		health_seed:
+			seed_sprite.visible = true
+			seed_sprite.frame = 0
+		speed_seed:
+			seed_sprite.visible = true
+			seed_sprite.frame = 3
+		attack_speed_seed:
+			seed_sprite.visible = true
+			seed_sprite.frame = 2
+		damage_seed:
+			seed_sprite.visible = true
+			seed_sprite.frame = 1
 
 func change_animation(vector : Vector2):
 	sprite.flip_h = vector.x < 0
