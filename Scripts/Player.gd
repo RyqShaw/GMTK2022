@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+export var stats : Resource
+
 var acceleration : float = 450
 var friction : float = 400
 var max_velocity : float = 75
@@ -19,6 +21,7 @@ func _physics_process(delta):
 		velocity = velocity.move_toward(max_velocity * input_vector, acceleration * delta)
 	else:
 		sprite.playing = false
+		sprite.frame = 0
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	
 	change_animation(input_vector)
