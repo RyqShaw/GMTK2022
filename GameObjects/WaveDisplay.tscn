@@ -1,10 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/WaveDisplay.gd" type="Script" id=1]
+[ext_resource path="res://Resources/Theme.tres" type="Theme" id=2]
 
 [node name="WaveDisplay" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 2 )
 script = ExtResource( 1 )
 
 [node name="WaveNumber" type="Label" parent="."]
@@ -23,11 +25,7 @@ margin_bottom = 174.0
 text = "Time Left: XXX"
 valign = 1
 
-[node name="BreakTimer" type="Timer" parent="."]
-wait_time = 15.0
-
 [node name="WaveTimer" type="Timer" parent="."]
 wait_time = 60.0
 
-[connection signal="timeout" from="BreakTimer" to="." method="_on_BreakTimer_timeout"]
 [connection signal="timeout" from="WaveTimer" to="." method="_on_WaveTimer_timeout"]

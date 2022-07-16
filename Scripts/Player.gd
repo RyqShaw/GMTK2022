@@ -18,6 +18,11 @@ enum {
 
 onready var sprite : AnimatedSprite = $AnimatedSprite
 onready var seed_sprite : Sprite = $Seed
+onready var blinkAnimation : AnimationPlayer = $blinkAnimation
+onready var hurtbox : Area2D = $Hurtbox
+
+func _ready():
+	stats.connect("no_health", self, "death")
 
 func _physics_process(delta):
 	var input_vector : Vector2 = Vector2.ZERO
@@ -61,3 +66,13 @@ func change_animation(vector : Vector2):
 		sprite.animation = "down_walk"
 	else:
 		sprite.animation = "up_walk"
+
+
+func _on_Hurtbox_area_entered(area):
+	stats.health -= area.damage
+#	knockback = area.knockback_vector * 120
+	hurtbox.start_invincibility(0.4)
+	blinkAnimation.play("start")
+
+func death():
+	queue_free()

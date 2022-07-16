@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Art Assets/character.png" type="Texture" id=2]
 [ext_resource path="res://Resources/PlayerStats.tres" type="Resource" id=3]
 [ext_resource path="res://Art Assets/Seeds.png" type="Texture" id=4]
+[ext_resource path="res://GameObjects/Overlap/Hurtbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Resources/White.tres" type="Material" id=6]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -74,12 +76,48 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 2.75, 4 )
 
+[sub_resource type="CapsuleShape2D" id=15]
+radius = 4.0
+height = 4.0
+
+[sub_resource type="Animation" id=16]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "start"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false ]
+}
+
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 1 )
 stats = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = ExtResource( 6 )
 frames = SubResource( 13 )
 animation = "down_walk"
 
@@ -92,3 +130,18 @@ shape = SubResource( 14 )
 position = Vector2( 0, -18 )
 texture = ExtResource( 4 )
 hframes = 4
+
+[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource( 15 )
+
+[node name="blinkAnimation" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 16 )
+anims/start = SubResource( 17 )
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+
+[editable path="Hurtbox"]

@@ -1,5 +1,6 @@
 extends Area2D
 
+const wave_manager = preload("res://Resources/WaveManager.tres")
 const inventory = preload("res://Resources/PlayerStats.tres")
 var in_zone = false
 
@@ -24,12 +25,12 @@ onready var exclamation : Sprite = $Selected
 func _ready():
 	exclamation.visible = false
 
-func _on_Plant_body_entered(body):
+func _on_Plant_body_entered(_body):
 	if sprite.frame == 3 or planted == none:
 		exclamation.visible = true
 		in_zone = true
 
-func _on_Plant_body_exited(body):
+func _on_Plant_body_exited(_body):
 	exclamation.visible = false
 	in_zone = false
 
@@ -37,12 +38,13 @@ func _input(event):
 	if event.is_action_pressed("interact") and in_zone and planted == none:
 		planted = inventory.inventory
 		inventory.inventory = none
+		inventory.planted_count -= 1
+		sprite.frame = 0
 			
 func _process(_delta):
 	match planted:
 		none:
 			sprite.visible = false
-			
 		health_seed:
 			sprite.visible = true
 			sprite.texture = HEALTH_PLANT
@@ -55,3 +57,11 @@ func _process(_delta):
 		damage_seed:
 			sprite.visible = true
 			sprite.texture = DAMAGE_PLANT
+	
+	if wave_manager.turn == wave_manager.in_wave:
+		if wave_manager.display.wave_timer.time_left <= 40:
+			sprite.frame = 1
+		if wave_manager.display.wave_timer.time_left <= 20:
+			sprite.frame = 2
+	if wave_manager.turn == wave_manager.in_break and sprite.frame == 2:
+		sprite.frame = 3

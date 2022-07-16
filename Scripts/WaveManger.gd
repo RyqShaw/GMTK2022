@@ -2,6 +2,7 @@ extends Resource
 class_name WaveManager
 
 var wave_number = 0
+var display = null
 
 enum {
 	in_wave,

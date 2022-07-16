@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Resources/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://Scripts/UI.gd" type="Script" id=2]
+
+[node name="UI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Labels" type="VBoxContainer" parent="."]
+margin_right = 64.0
+margin_bottom = 88.0
+
+[node name="Health" type="Label" parent="Labels"]
+margin_right = 64.0
+margin_bottom = 19.0
+text = "Health"
+
+[node name="Speed" type="Label" parent="Labels"]
+margin_top = 23.0
+margin_right = 64.0
+margin_bottom = 42.0
+text = "Speed"
+
+[node name="AttackSpeed" type="Label" parent="Labels"]
+margin_top = 46.0
+margin_right = 64.0
+margin_bottom = 65.0
+text = "At. Speed"
+
+[node name="Damage" type="Label" parent="Labels"]
+margin_top = 69.0
+margin_right = 64.0
+margin_bottom = 88.0
+text = "Damage"
+
+[node name="Dice" type="VBoxContainer" parent="."]
+margin_left = 56.0
+margin_right = 88.0
+margin_bottom = 88.0
