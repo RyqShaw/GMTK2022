@@ -56,6 +56,7 @@ func reset():
 	$YSort/Player.gun_cooldown_enabled = true
 
 func _on_TitleScreen_game_started():
+	$Music.play()
 	$CanvasLayer/WaveDisplay.visible = true
 	$CanvasLayer/UI.visible = true
 	$CanvasLayer/TutorialButton.visible = false
@@ -64,6 +65,7 @@ func _on_TitleScreen_game_started():
 
 
 func _on_Player_game_over():
+	$Music.stop()
 	$CanvasLayer/WaveDisplay.visible = false
 	$CanvasLayer/UI.visible = false
 	$CanvasLayer/GameOver.visible = true

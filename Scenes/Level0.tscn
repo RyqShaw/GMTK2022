@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://GameObjects/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameObjects/Ground.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://GameObjects/TitleScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Resources/Theme.tres" type="Theme" id=15]
 [ext_resource path="res://GameObjects/Tutorial.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Audio/Music/Music.wav" type="AudioStream" id=17]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -125,6 +126,10 @@ collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PlayerBounds"]
 polygon = PoolVector2Array( -80, -48, -80, 224, 400, 224, 400, -48, 400, -88, 424, -88, 424, 256, -112, 256, -112, -88, 400, -88, 400, -48 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
+volume_db = -15.0
 
 [connection signal="popup_hide" from="CanvasLayer/Tutorial" to="." method="_on_Tutorial_popup_hide"]
 [connection signal="game_started" from="CanvasLayer/TitleScreen" to="." method="_on_TitleScreen_game_started"]
