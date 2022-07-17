@@ -3,6 +3,7 @@ extends Node2D
 export(PackedScene) var mob_scene
 const wave_manager = preload("res://Resources/WaveManager.tres")
 
+onready var player = $Player
 func _ready():
 	randomize()
 	wave_manager.connect("wave_started", self, "_wave_started")
@@ -45,4 +46,42 @@ func difficulty_adjust():
 		$SpawnTimer.wait_time = 0.5
 
 func reset():
+	$CanvasLayer/TitleScreen.visible = true
+	$CanvasLayer/GameOver.visible = false
+	$CanvasLayer/TutorialButton.visible = true
 	$YSort/Player.global_position = Vector2(152,72)
+	$CanvasLayer/WaveDisplay.visible = false
+	$CanvasLayer/UI.visible = false
+	$YSort/Player.visible = false
+	$YSort/Player.gun_cooldown_enabled = true
+
+func _on_TitleScreen_game_started():
+	$CanvasLayer/WaveDisplay.visible = true
+	$CanvasLayer/UI.visible = true
+	$CanvasLayer/TutorialButton.visible = false
+	$YSort/Player.visible = true
+	$YSort/Player.gun_cooldown_enabled = false
+
+
+func _on_Player_game_over():
+	$CanvasLayer/WaveDisplay.visible = false
+	$CanvasLayer/UI.visible = false
+	$CanvasLayer/GameOver.visible = true
+	$CanvasLayer/GameOver/Timer.start()
+
+
+func _on_Timer_timeout():
+	print("reset")
+	get_tree().reload_current_scene()
+	GlobalInfo.reset()
+
+
+func _on_TutorialButton_pressed():
+	$CanvasLayer/Tutorial.popup()
+	$CanvasLayer/TutorialButton.visible = false
+	$CanvasLayer/TitleScreen.visible = false
+
+
+func _on_Tutorial_popup_hide():
+	$CanvasLayer/TutorialButton.visible = true
+	$CanvasLayer/TitleScreen.visible = true

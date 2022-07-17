@@ -91,7 +91,7 @@ func seek_player():
 
 func _on_HurtBox_area_entered(area):
 	stats.health -= area.damage
-#	knockback = area.knockback_vector * 120
+	knockback = area.knockback_vector * 120
 	hurtbox.start_invincibility(0.4)
 	$AnimationPlayer.play("hit")
 #	hurtbox.create_hit_effect()

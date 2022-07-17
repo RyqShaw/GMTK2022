@@ -28,6 +28,7 @@ onready var exclamation : Sprite = $Selected
 
 func _ready():
 	exclamation.visible = false
+	GlobalInfo.connect("resetting", self, "reset")
 
 func _on_Plant_body_entered(_body):
 	if sprite.frame == 3 or planted == none:
@@ -93,3 +94,8 @@ func _process(_delta):
 			sprite.frame = 2
 	if wave_manager.turn == wave_manager.in_break and sprite.frame == 2:
 		sprite.frame = 3
+
+func reset():
+	sprite.frame = 0
+	sprite.visible = false
+	planted = none 

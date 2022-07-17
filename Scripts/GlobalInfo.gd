@@ -10,7 +10,7 @@ var difficulty = 1 setget set_difficulty
 signal score_changed
 signal difficulty_changed
 signal time_changed
-signal reseting
+signal resetting
 
 
 func set_score(value):
@@ -41,10 +41,9 @@ func reset():
 	difficulty = 1
 	player.health= 6
 	player.speed_mod = 3
-	player.attack_speedfloat = 3 
+	player.attack_speed = 3 
 	player.damage = 3
 
 	player.planted_count = 3 
-	player.inventory = player.none
 	player.dice_number= 1
-	emit_signal("reseting")
+	emit_signal("resetting")

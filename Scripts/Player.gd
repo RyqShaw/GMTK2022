@@ -12,7 +12,7 @@ var used_velocity : float = max_velocity
 
 signal game_over
 var velocity : Vector2 = Vector2.ZERO
-var gun_cooldown_enabled = false
+var gun_cooldown_enabled = true
 
 enum {
 	health_seed,
@@ -39,6 +39,7 @@ func _ready():
 	stats.connect("speed_changed", self, "change_movement")
 	stats.connect("aspeed_changed", self, "change_attack")
 	stats.connect("damage_changed", self, "change_damage")
+	GlobalInfo.connect("resetting", self, "reset")
 
 func _physics_process(delta):
 	var input_vector : Vector2 = Vector2.ZERO
@@ -61,7 +62,7 @@ func _physics_process(delta):
 	
 	if gun_cooldown_enabled == false:
 		if Input.is_action_just_pressed("Fire"):
-			fire()
+			fire(input_vector)
 			gun_cooldown_enabled = true
 			gun_timer.start()
 
@@ -127,9 +128,11 @@ func _on_Hurtbox_area_entered(area):
 func death():
 	wave_manager.turn = wave_manager.in_break
 	emit_signal("game_over")
-	queue_free()
+	visible = false
+	gun_cooldown_enabled = true
+	
 
-func fire():
+func fire(vector : Vector2):
 	var bullet_insatnce = bullet.instance()
 	bullet_insatnce.position = $Gun/Spawn.global_position
 	bullet_insatnce.rotation_degrees = rad2deg($Gun.global_rotation)
@@ -166,3 +169,6 @@ func change_attack():
 		gun_timer.wait_time = 0.25
 	elif stats.attack_speed == 6:
 		gun_timer.wait_time = 0.1
+
+func reset():
+	stats.reset()

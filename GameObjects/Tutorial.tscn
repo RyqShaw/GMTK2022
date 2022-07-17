@@ -1,0 +1,136 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Resources/Theme.tres" type="Theme" id=1]
+[ext_resource path="res://Scripts/Tutorial.gd" type="Script" id=2]
+[ext_resource path="res://Art Assets/PickUp.png" type="Texture" id=3]
+[ext_resource path="res://Art Assets/AtBinAndTable.png" type="Texture" id=4]
+[ext_resource path="res://Art Assets/Planting.png" type="Texture" id=5]
+[ext_resource path="res://Art Assets/harvest.png" type="Texture" id=6]
+
+[node name="Tutorial" type="Popup"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -85.0
+margin_right = 160.0
+margin_bottom = 90.0
+mouse_filter = 1
+theme = ExtResource( 1 )
+popup_exclusive = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -136.0
+margin_top = -68.5
+margin_right = 280.0
+margin_bottom = 155.5
+rect_scale = Vector2( 0.65, 0.65 )
+
+[node name="Page1" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 37.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Page1"]
+margin_right = 176.0
+margin_bottom = 107.0
+text = "Move with W A S D
+E to Interact
+Left Click to fire Water Gun"
+
+[node name="Page2" type="Tabs" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 37.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Page2"]
+margin_right = 208.0
+margin_bottom = 107.0
+text = "To Start a round you must pick seeds from one of each box, Once 3 are Planted, a wave will start, with a random difficulty determined by the dice"
+
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Page2"]
+margin_left = 229.846
+margin_top = 24.5385
+margin_right = 375.846
+margin_bottom = 187.538
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="TextureRect2" type="TextureRect" parent="TabContainer/Page2"]
+margin_left = 316.0
+margin_top = 24.5385
+margin_right = 472.0
+margin_bottom = 187.538
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+
+[node name="Page3" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 37.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Page3"]
+margin_right = 252.0
+margin_bottom = 139.0
+text = "Once A wave is finished, your crops will be ready to be harvested, Once you harvest a crop, it will roll a random number. If you put the dice in the bin, that dice will now be set to its corresponding stat. If put on the table, it is sold"
+scroll_active = false
+
+[node name="TextureRect" type="TextureRect" parent="TabContainer/Page3"]
+margin_left = 279.077
+margin_top = 73.7692
+margin_right = 632.077
+margin_bottom = 367.769
+rect_scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 4 )
+
+[node name="TextureRect2" type="TextureRect" parent="TabContainer/Page3"]
+margin_left = 291.385
+margin_top = -0.0769196
+margin_right = 438.385
+margin_bottom = 135.923
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+
+[node name="Page4" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 37.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Page4"]
+margin_right = 276.0
+margin_bottom = 139.0
+text = "There is 2 ways to increase score, either by decreasing your stats(3 points per point decreased) or by selling the dice(Number on dice is number added to score). Try to get the highest score you can!"
+
+[node name="Button" type="Button" parent="."]
+margin_left = 232.0
+margin_top = 139.0
+margin_right = 288.0
+margin_bottom = 164.0
+text = "Leave"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

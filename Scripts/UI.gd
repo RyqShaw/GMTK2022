@@ -14,6 +14,7 @@ func _ready():
 	player.connect("damage_changed", self, "update_labels")
 	GlobalInfo.connect("score_changed", self, "update_score")
 	GlobalInfo.connect("difficulty_changed", self, "update_difficulty")
+	GlobalInfo.connect("resetting", self, "reset")
 	update_labels()
 	update_score()
 # Called when the node enters the scene tree for the first time.
@@ -27,3 +28,7 @@ func update_score():
 	$Score.text = "Score " +str(GlobalInfo.score)
 func update_difficulty():
 	$Dice/Difficulty.frame = GlobalInfo.difficulty - 1
+
+func reset():
+	$Score.text = "Score 0"
+	$Dice/Difficulty.frame = 0

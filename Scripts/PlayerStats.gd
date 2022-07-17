@@ -31,6 +31,8 @@ signal inventory_changed
 signal speed_changed
 signal aspeed_changed
 signal damage_changed
+	
+	
 func set_health(value):
 	if value < health:
 		GlobalInfo.score += (health - value) *3
@@ -69,3 +71,5 @@ func set_damage(value):
 		GlobalInfo.score += (damage - value) *3
 	damage = value
 	emit_signal("damage_changed")
+func reset():
+	inventory = none
