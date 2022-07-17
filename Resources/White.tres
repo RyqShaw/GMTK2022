@@ -16,5 +16,6 @@ void fragment() {
 }"
 
 [resource]
+resource_local_to_scene = true
 shader = SubResource( 16 )
 shader_param/active = false

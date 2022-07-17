@@ -1,11 +1,14 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Art Assets/Bat.png" type="Texture" id=1]
 [ext_resource path="res://GameObjects/Overlap/Hurtbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://GameObjects/WanderController.tscn" type="PackedScene" id=3]
-[ext_resource path="res://GameObjects/Enemy.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Enemy.gd" type="Script" id=4]
 [ext_resource path="res://GameObjects/Overlap/PlayerDetection.tscn" type="PackedScene" id=5]
 [ext_resource path="res://GameObjects/Overlap/Hitbox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GameObjects/Overlap/SoftCollision.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Resources/EnemyStats.tres" type="Resource" id=8]
+[ext_resource path="res://Resources/White.tres" type="Material" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 5.0
@@ -105,15 +108,51 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="CircleShape2D" id=13]
+radius = 5.09902
+
+[sub_resource type="Animation" id=14]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "hit"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false ]
+}
+
 [node name="Enemy" type="KinematicBody2D"]
 collision_layer = 8
 script = ExtResource( 4 )
+stats = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 disabled = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = ExtResource( 9 )
 position = Vector2( 0, -7 )
 frames = SubResource( 7 )
 frame = 3
@@ -148,7 +187,17 @@ anims/FadeAway = SubResource( 10 )
 anims/RESET = SubResource( 11 )
 anims/Visible = SubResource( 12 )
 
+[node name="SoftCollision" parent="." instance=ExtResource( 7 )]
+
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
+shape = SubResource( 13 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 14 )
+anims/hit = SubResource( 15 )
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_HurtBox_area_entered"]
 
 [editable path="Hitbox"]
 [editable path="Hurtbox"]
+[editable path="SoftCollision"]

@@ -6,7 +6,7 @@ onready var sprite = $AnimatedSprite
 onready var playerDetectionZone = $PlayerDetection
 onready var detcollision = $PlayerDetection/CollisionShape2D
 onready var hurtbox = $Hurtbox
-#onready var softCollision = $SoftCollision
+onready var softCollision = $SoftCollision
 onready var wanderController = $WanderController
 #onready var animationPlayer = $AnimationPlayer
 
@@ -14,7 +14,7 @@ const wave_manager = preload("res://Resources/WaveManager.tres")
 
 var velocity = Vector2.ZERO
 var knockback = Vector2.ZERO
-var stats
+export(Resource) var stats 
 
 export var ACCELERATION = 300
 export var FRICTION = 200
@@ -33,10 +33,12 @@ var state = CHASE
 #const EnemeyDeathEffect = preload("res://Effects/EnemyDeathEffect.tscn")
 
 func _ready():
-	stats = Stats.new()
+	difficulty_adjust()
+	stats.connect("no_health",self,"_on_Stats_no_health")
 	state = pick_random_state([IDLE, WANDER])
 	wave_manager.connect("wave_started", self, "_wave_started")
 	wave_manager.connect("break_started", self, "_break_started")
+	GlobalInfo.connect("difficulty_changed", self, "difficulty_adjust")
 	
 	
 #Knockback/ Being hit calculation
@@ -70,8 +72,8 @@ func _physics_process(delta):
 				state = WANDER
 			seek_player()
 	
-#	if softCollision.is_colliding():
-#		velocity += softCollision.get_push_vector() * delta * 400
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vector() * delta * 400
 # warning-ignore:return_value_discarded
 	move_and_slide(velocity)
 func update_wander():
@@ -89,9 +91,10 @@ func seek_player():
 
 func _on_HurtBox_area_entered(area):
 	stats.health -= area.damage
-	knockback = area.knockback_vector * 120
+#	knockback = area.knockback_vector * 120
 	hurtbox.start_invincibility(0.4)
-	hurtbox.create_hit_effect()
+	$AnimationPlayer.play("hit")
+#	hurtbox.create_hit_effect()
 
 func pick_random_state(state_list):
 	state_list.shuffle()
@@ -117,4 +120,22 @@ func _break_started():
 	detcollision.set_deferred("disabled", true)
 	$FadeAway.play("FadeAway")
 
-
+func difficulty_adjust():
+	if GlobalInfo.difficulty == 1:
+		MAX_SPEED = 50
+		stats.health = 2
+	elif GlobalInfo.difficulty == 2:
+		MAX_SPEED = 50
+		stats.health = 3
+	elif GlobalInfo.difficulty == 3:
+		stats.health = 4
+		MAX_SPEED = 50
+	elif GlobalInfo.difficulty == 4:
+		MAX_SPEED = 75
+		stats.health = 6
+	elif GlobalInfo.difficulty == 5:
+		MAX_SPEED = 75
+		stats.health = 8
+	elif GlobalInfo.difficulty == 6:
+		MAX_SPEED = 100
+		stats.health = 12

@@ -8,13 +8,18 @@ enum {
 	speed_seed,
 	attack_speed_seed,
 	damage_seed,
-	none
+	none,
+	health_dice,
+	speed_dice,
+	attack_speed_dice,
+	damage_dice
 }
-
+var type = none
 onready var exclamation : Sprite = $InZone
 
 func _ready():
 	exclamation.visible = false
+	GlobalInfo.connect("resetting",self,"reset")
 
 func _on_PlayerDetection_body_entered(_body):
 	exclamation.visible = true
@@ -29,4 +34,10 @@ func _input(event):
 		give_seeds()
 
 func give_seeds():
-	pass
+	if inventory.inventory != health_dice or inventory.inventory != speed_dice or inventory.inventory != attack_speed_dice or inventory.inventory != damage_dice:
+		inventory.inventory = type
+
+func reset():
+	exclamation.visible = false
+	in_zone = false
+	type = none

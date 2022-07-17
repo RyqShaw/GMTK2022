@@ -14,7 +14,11 @@ enum {
 	speed_seed,
 	attack_speed_seed,
 	damage_seed,
-	none
+	none,
+	health_dice,
+	speed_dice,
+	attack_speed_dice,
+	damage_dice
 }
 
 var planted = none
@@ -40,6 +44,30 @@ func _input(event):
 		inventory.inventory = none
 		inventory.planted_count -= 1
 		sprite.frame = 0
+	elif event.is_action_pressed("interact") and in_zone and planted != none and sprite.frame == 3:
+		match planted:
+			none:
+				pass
+			health_seed:
+				inventory.inventory = health_dice
+				planted = none
+			speed_seed:
+				inventory.inventory = speed_dice
+				planted = none
+			attack_speed_seed:
+				inventory.inventory = attack_speed_dice
+				planted = none
+			damage_seed:
+				inventory.inventory = damage_dice
+				planted = none
+			health_dice:
+				pass
+			speed_dice:
+				pass
+			attack_speed_dice:
+				pass
+			damage_dice:
+				pass
 			
 func _process(_delta):
 	match planted:
@@ -59,9 +87,9 @@ func _process(_delta):
 			sprite.texture = DAMAGE_PLANT
 	
 	if wave_manager.turn == wave_manager.in_wave:
-		if wave_manager.display.wave_timer.time_left <= 40:
+		if wave_manager.display.wave_timer.time_left <= (GlobalInfo.wave_time *0.6):
 			sprite.frame = 1
-		if wave_manager.display.wave_timer.time_left <= 20:
+		if wave_manager.display.wave_timer.time_left <= (GlobalInfo.wave_time *0.3):
 			sprite.frame = 2
 	if wave_manager.turn == wave_manager.in_break and sprite.frame == 2:
 		sprite.frame = 3
